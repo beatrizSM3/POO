@@ -1,20 +1,24 @@
 
 from customtkinter import *
 from tkintermapview import TkinterMapView
-from tkinter import Listbox
+from tkinter import Listbox,Scrollbar,END,UNITS
 #import geocoder
 
+
+
+
 class Map:
-    set_appearance_mode("Light")
+    set_appearance_mode("Dark")
     def __init__(self):
+        
         #self.local = geocoder.ip('me')
         
-        self.lista=["Malta","Brasil","New York","China","Japan","Cajazeiras","Bangladesh"]
+        self.lista=["Malta","Brasil","New York","China","Japan","Cajazeiras","Bangladesh","a","b","c","Malta"]
         self.lista2=[]
 
 
         self.window=CTk()
-        self.window.geometry("900x520")
+        self.window.geometry("880x520")
         self.window.title("GEOLOCALIZATION")
         self.font_sans=("Calibri",15)
         self.frame()
@@ -24,6 +28,7 @@ class Map:
         self.map_background()
         self.entry()
         self.buttons_frame1()
+        self.scrollbar()
         self.window.mainloop()
 
 
@@ -45,35 +50,76 @@ class Map:
            
             map_find.pack(fill='both',expand=True)
             self.buttons_frame2()
-            btn_back.place(x=720,y=20)
+            btn_back.place(x=810,y=20)
 
         elif btn=="back":
             self.change_frame_page1()
-             
+
+        elif btn=="delete":
+            value=list_box.curselection()
+            list_box.delete(value)
+            print(value)
+
+        elif btn=="go":
+            value=list_box.curselection()
+            local=list_box.get(value)
+            if local:
+                map_widget.set_address(local)
+            
             
         elif btn=="save":
-            count=0
+            
             #text_label=getattr(label_saved,'text')
-            #text=Text(label_saved,width=80, height=15)
-            #label_saved.configure(text=self.lista)
-            list_box=Listbox(label_saved,relief=None,bg='#CECECF',selectbackground='#BFBEBF',bd=0,font=self.font_sans,highlightthickness = 0)
-            address_save=entry_save.get()
-            self.lista2.append(address_save)
-            if self.lista2:
-                for address in self.lista2:
-                    list_box.insert(count,address)
-                    count+=1
+           
+            #scrollbar=Scrollbar(list_box)
+            #list_box=Listbox(label_saved,relief=None,bg='#CECECF',selectbackground='#BFBEBF',bd=0,font=self.font_sans,highlightthickness = 0,height=430)
+            self.list_box()
+            
+           
+
+
+            
+            
+            #scrollbar.pack(fill="y",side="left")
+           
+            #list_box.config(yscrollcommand= scrollbar.set(0.0,0.0))
+            #scrollbar.config(command= list_box.yview_scroll(1, UNITS))
+            print(scrollbar.get())
+            #list_box.yview_scroll(1, 1)
+
+            
+           
+            address_save=entry_save.get()   #pega o que o usuário digitou 
+            self.lista.append(address_save)
+            if self.lista:
+                for address in self.lista:
+                    list_box.insert(END,address)
+        
+
 
                 list_box.place(x=30,y=40)
-            #text.place()
+                #scrollbar.pack(side="left",fill="y")
+                list_box.config(yscrollcommand= scrollbar.set)
+                scrollbar.config(command= list_box.yview_scroll(1, UNITS))
+           
+               
             
             print("executou")
 
 
     def frame(self):
-        self.frame_page1=CTkFrame(master=self.window,width=900,height=520)   #.place(relx=0.5, rely=0.5, anchor="center")
+        self.frame_page1=CTkFrame(master=self.window,width=900,height=520)    
         self.frame_page2=CTkFrame(master=self.window,width=900,height=520)
-       
+
+    def scrollbar(self):
+        global scrollbar
+        scrollbar=Scrollbar(self.frame_page1,orient="vertical",bg="#0F0F0F",troughcolor="blue")
+        
+
+    def list_box(self):
+        global list_box
+        list_box=Listbox(label_saved,relief=None,bg="#1B1A1B",selectbackground="#0F0F0F",bd=0,font=self.font_sans,highlightthickness = 0,height=430,fg="#F0F0F1")
+      
 
 
     #CHANGES BETWEEN PAGES (FRAMES)
@@ -86,31 +132,25 @@ class Map:
         self.frame_page2.pack_forget()
 
     def map_background(self):
+        global map_widget
         map_widget = TkinterMapView(label_map, width=500, height=300,corner_radius=10)
         map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga")
         map_widget.place(relx=0.5, rely=0.5, anchor="center")
 
     def label(self):
         global label_map,label_saved
+        ##CECECF
 
-        #creating labels
-       
-
-        #label_bottom=CTkLabel(master=self.frame_page1,text=None,fg_color="#E2E2E2", width=900, height=150,corner_radius=20)
-        label_map=CTkLabel(master=self.frame_page1,text=None,fg_color="#CECECF", width=550, height=350,corner_radius=20)
+        label_map=CTkLabel(master=self.frame_page1,text=None,fg_color="#1B1A1B", width=550, height=350,corner_radius=20)
             
             
         #label_bottom.place(y=380)
         label_map.place(x=300,y=40)
 
-        if self.lista:
-            label_saved=CTkLabel(master=self.frame_page1,text="Favorite Places",fg_color="#CECECF", width=250, height=450,corner_radius=20,text_font=self.font_sans,anchor="w")
+        label_saved=CTkLabel(master=self.frame_page1,text="Favorite Places",fg_color="#1B1A1B", width=250, height=450,corner_radius=20,text_font=self.font_sans,anchor="w")
           
-            label_saved.place(x=30,y=40)
+        label_saved.place(x=30,y=40)
             
-     
-
-
      
 
 
@@ -124,20 +164,27 @@ class Map:
 
 
 
+
     def buttons_frame1(self):
         global btn_find,btn_save
 
         #creating buttons at frame 1
         btn_find=CTkButton(master=self.frame_page1,text="Find Local",width=150,height=30,corner_radius=10,fg_color="#010001",text_color='#F0F1F0',hover_color="#1A1C1D",command=lambda which="find": self.get_button(which))
         btn_save=CTkButton(master=self.frame_page1,text="Save Local",width=150,height=30,corner_radius=10,fg_color="#010001",text_color='#F0F1F0',hover_color="#1A1C1D",command= lambda which="save": self.get_button(which))
+        btn_delete=CTkButton(master=self.frame_page1,text="X", width=20, corner_radius=0,text_color="red",fg_color="#1B1A1B",hover_color=None,command=lambda which="delete": self.get_button(which))
+        btn_go=CTkButton(master=self.frame_page1,text="GO",width=20,corner_radius=0,text_color="white",fg_color="#1B1A1B",hover_color=None,command=lambda which="go": self.get_button(which))
+       
 
         #placing buttons with place()
+        btn_delete.place(x=240,y=50)
+        btn_go.place(x=240,y=450)
         btn_find.place(x=400,y=460)
         btn_save.place(x=600,y=460)
 
+
     def buttons_frame2(self):
         global btn_back
-        btn_back=CTkButton(master=self.frame_page2,text="Back",width=150,height=30,corner_radius=10,fg_color="#010001",text_color='#F0F1F0',hover_color="#1A1C1D", command=lambda which="back":self.get_button(which))
+        btn_back=CTkButton(master=self.frame_page2,text="Back",width=50,height=30,corner_radius=10,fg_color="#010001",text_color='#F0F1F0',hover_color="#1A1C1D", command=lambda which="back":self.get_button(which))
 
    
 
