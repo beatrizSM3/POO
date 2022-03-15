@@ -99,6 +99,9 @@ class Map:
                 #scrollbar.pack(side="left",fill="y")
                 list_box.config(yscrollcommand= scrollbar.set)
                 scrollbar.config(command= list_box.yview_scroll(1, UNITS))
+            else:
+                print(address_save)
+                list_box.insert(END,address_save)
            
                
             
