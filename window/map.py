@@ -36,8 +36,6 @@ class Map:
         if btn=="find":
             self.change_frame_page2()
             address_find=entry_address.get()
-            map_find=TkinterMapView(self.frame_page2, width=900,height=550)
-            map_find.set_tile_server("https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga")
             
             marker_1 = map_find.set_address("colosseo, rome, italy", marker=True)  #self.local.city
             marker_2=map_find.set_address("Berlin,Germany", marker=True)        #address_find
@@ -132,10 +130,13 @@ class Map:
         self.frame_page2.pack_forget()
 
     def map_background(self):
-        global map_widget
+        global map_widget,map_find
         map_widget = TkinterMapView(label_map, width=500, height=300,corner_radius=10)
         map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga")
         map_widget.place(relx=0.5, rely=0.5, anchor="center")
+
+        map_find=TkinterMapView(self.frame_page2, width=900,height=550)
+        map_find.set_tile_server("https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga")
 
     def label(self):
         global label_map,label_saved
@@ -143,8 +144,6 @@ class Map:
 
         label_map=CTkLabel(master=self.frame_page1,text=None,fg_color="#1B1A1B", width=550, height=350,corner_radius=20)
             
-            
-        #label_bottom.place(y=380)
         label_map.place(x=300,y=40)
 
         label_saved=CTkLabel(master=self.frame_page1,text="Favorite Places",fg_color="#1B1A1B", width=250, height=450,corner_radius=20,text_font=self.font_sans,anchor="w")
