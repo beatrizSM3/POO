@@ -1,7 +1,10 @@
-
+#!/usr/bin/env python3S
 from customtkinter import *
 from tkintermapview import TkinterMapView
 from tkinter import Listbox,Scrollbar,END,UNITS
+#import sys
+#sys.path.insert(0,'database\database.py')
+from database import DataBase
 #import geocoder
 
 
@@ -10,6 +13,7 @@ from tkinter import Listbox,Scrollbar,END,UNITS
 class Map:
     set_appearance_mode("Dark")
     def __init__(self):
+        self.db=DataBase()
         
         #self.local = geocoder.ip('me')
         
@@ -82,15 +86,17 @@ class Map:
            
             #list_box.config(yscrollcommand= scrollbar.set(0.0,0.0))
             #scrollbar.config(command= list_box.yview_scroll(1, UNITS))
-            print(scrollbar.get())
+            #print(scrollbar.get())
             #list_box.yview_scroll(1, 1)
 
             
            
-            address_save=entry_save.get()   #pega o que o usuário digitou 
-            self.lista.append(address_save)
-            if self.lista:
-                for address in self.lista:
+            address_save=entry_save.get() 
+            self.db.adicionar(address_save)
+            lista=self.db.select()
+            
+            if lista:
+                for address in lista:
                     list_box.insert(END,address)
         
 
@@ -109,7 +115,7 @@ class Map:
 
 
     def frame(self):
-        self.frame_page1=CTkFrame(master=self.window,width=900,height=520)    
+        self.frame_page1=CTkFrame(master=self.window,width=900,height=520,corner_radius=0)    
         self.frame_page2=CTkFrame(master=self.window,width=900,height=520)
 
     def scrollbar(self):
