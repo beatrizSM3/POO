@@ -1,7 +1,7 @@
 #!/usr/bin/env python3S
 from customtkinter import *
 from tkintermapview import TkinterMapView
-from tkinter import Listbox,Scrollbar,END,UNITS
+from tkinter import Listbox,END
 #import sys
 #sys.path.insert(0,'database\database.py')
 from database import DataBase
