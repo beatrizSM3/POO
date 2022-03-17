@@ -11,10 +11,15 @@ class DataBase():
 
     def adicionar(self,address_save):
         self.connect()
-        sql1=f"INSERT into data values('{address_save}')"
-        cursor.execute(sql1)
-        self.dataBase.commit()                            
-        self.dataBase.close()
+        select=f"SELECT * FROM data"
+        cursor.execute(select)
+        if len(cursor.fetchall())>16:
+                print("lista de endereços chegou ao limite")
+        else:
+            sql1=f"INSERT into data values('{address_save}')"
+            cursor.execute(sql1)
+            self.dataBase.commit()                            
+            self.dataBase.close()
 
     def select(self):
         self.connect()
