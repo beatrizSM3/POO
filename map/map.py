@@ -11,10 +11,14 @@ class Map:
     def __init__(self):
         self.db=DataBase()
         
+<<<<<<< HEAD
         self.local = geocoder.ip('me')
+=======
+        #self.place = geocoder.ip('me')
+>>>>>>> 2aa1551b61e0627dbdcef30ae6fd4c832738657a
 
         self.window=CTk()
-        self.window.geometry("880x520")
+        self.window.geometry("880x520+250+80")
         self.window.title("GEOLOCALIZATION")
         self.font_sans=("Calibri",15)
         self.frame()
@@ -33,7 +37,6 @@ class Map:
             address_find=entry_address.get()
             if address_find:
                
-           
                 marker_1 = map_find.set_address(self.local.city, marker=True)  #self.local.city
                 marker_2=map_find.set_address(address_find, marker=True)        #address_find
                 #print(marker_1.position, marker_2.position)  # get position 
@@ -57,9 +60,9 @@ class Map:
 
         elif btn=="go":
             value=list_box.curselection()
-            local=list_box.get(value)
-            if local:
-                map_widget.set_address(local)
+            place=list_box.get(value)
+            if place:
+                map_widget.set_address(place)
         
         elif btn=="back":
             #marker_2.delete()
