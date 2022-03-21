@@ -164,7 +164,7 @@ class Map:
         btn_find=CTkButton(master=frame_page1,text="Find Place",width=150,height=30,corner_radius=10,fg_color="#010001",text_color='#F0F1F0',hover_color="#1A1C1D",command=lambda which="find": self.get_button(which))
         btn_save=CTkButton(master=frame_page1,text="Save Place",width=150,height=30,corner_radius=10,fg_color="#010001",text_color='#F0F1F0',hover_color="#1A1C1D",command= lambda which="save": self.get_button(which))
         btn_delete=CTkButton(master=frame_page1,text="X", width=20, corner_radius=0,text_color="red",fg_color="#1B1A1B",hover_color=None,command=lambda which="delete": self.get_button(which))
-        btn_go=CTkButton(master=frame_page1,text="GO",width=20,corner_radius=0,text_color="white",fg_color="#1B1A1B",hover_color=None,command=lambda which="go": self.get_button(which))
+        btn_go=CTkButton(master=frame_page1,text="FIND",width=20,corner_radius=0,text_color="green",fg_color="#1B1A1B",hover_color=None,command=lambda which="go": self.get_button(which))
        
         #placing buttons with place()
         btn_delete.place(x=240,y=50)
