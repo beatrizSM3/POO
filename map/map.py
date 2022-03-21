@@ -1,13 +1,9 @@
-#!/usr/bin/env python3S
+
 from customtkinter import *
 from tkintermapview import TkinterMapView
 from tkinter import Listbox,END
-#import sys
-#sys.path.insert(0,'database\database.py')
 from database import DataBase
 #import geocoder
-
-
 
 
 class Map:
@@ -49,9 +45,6 @@ class Map:
             self.buttons_frame2()
             btn_back.place(x=810,y=20)
 
-        elif btn=="back":
-            self.change_frame_page1()
-
         elif btn=="delete":
             value=list_box.curselection()
             address=list_box.get(value)
@@ -64,6 +57,9 @@ class Map:
             local=list_box.get(value)
             if local:
                 map_widget.set_address(local)
+        
+        elif btn=="back":
+            self.change_frame_page1()
             
             
         elif btn=="save":
