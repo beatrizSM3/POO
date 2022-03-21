@@ -11,11 +11,7 @@ class Map:
     def __init__(self):
         self.db=DataBase()
         
-<<<<<<< HEAD
         self.local = geocoder.ip('me')
-=======
-        #self.place = geocoder.ip('me')
->>>>>>> 2aa1551b61e0627dbdcef30ae6fd4c832738657a
 
         self.window=CTk()
         self.window.geometry("880x520+250+80")
@@ -32,14 +28,14 @@ class Map:
 
 
     def get_button(self,btn):
-        global path,address_find,marker_2,marker_1
         if btn=="find":
             address_find=entry_address.get()
             if address_find:
-               
-                marker_1 = map_find.set_address(self.local.city, marker=True)  #self.local.city
-                marker_2=map_find.set_address(address_find, marker=True)        #address_find
-                #print(marker_1.position, marker_2.position)  # get position 
+                self.map_find()
+                
+                marker_1 = map_find.set_address(self.local.city, marker=True)  
+                marker_2=map_find.set_address(address_find, marker=True)     
+                #print(marker_1.position, marker_2.position)  
             
                 marker_1.set_text(self.local.city)   #self.local.city
                 marker_2.set_text(address_find)   #adress_find
@@ -65,20 +61,10 @@ class Map:
                 map_widget.set_address(place)
         
         elif btn=="back":
-            #marker_2.delete()
-            path.remove_position(marker_1.position,marker_2.position)
-            #marker_2.set_position(address_find)
-            
-           
-           
-            #lista.remove((-6.8897849, -38.5570389))
-            #print("lista",lista)
-
-            print(path.position_list)
-            print(marker_1.position)
-            print(marker_2.position)
-
             self.change_frame_page1()
+       
+            map_find.destroy()
+           
             
             
         elif btn=="save":
@@ -92,9 +78,7 @@ class Map:
             
             if lista:
                 for address in lista:
-                    list_box.insert(END,address)
-        
-                #list_box.place(x=30,y=40)        
+                    list_box.insert(END,address)     
                
             else:
                 print(address_save)
@@ -114,6 +98,8 @@ class Map:
     def list_box(self):
         global list_box
         list_box=Listbox(label_saved,relief=None,bg="#1B1A1B",selectbackground="#0F0F0F",bd=0,font=self.font_sans,highlightthickness = 0,height=430,fg="#F0F0F1")
+        print(list_box)
+
         list_box.place(x=30,y=40)   
 
     #CHANGES BETWEEN PAGES (FRAMES)
@@ -126,11 +112,15 @@ class Map:
         frame_page2.pack_forget()
 
     def map_background(self):
-        global map_widget,map_find
+        global map_widget
         map_widget = TkinterMapView(label_map, width=500, height=300,corner_radius=10)
         map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga")
         map_widget.set_address(self.local.city)
         map_widget.place(relx=0.5, rely=0.5, anchor="center")
+
+
+    def map_find(self):
+        global map_find
 
         map_find=TkinterMapView(frame_page2, width=900,height=550)
         map_find.set_tile_server("https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga")
