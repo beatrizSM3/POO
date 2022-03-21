@@ -11,10 +11,10 @@ class Map:
     def __init__(self):
         self.db=DataBase()
         
-        #self.local = geocoder.ip('me')
+        #self.place = geocoder.ip('me')
 
         self.window=CTk()
-        self.window.geometry("880x520")
+        self.window.geometry("880x520+250+80")
         self.window.title("GEOLOCALIZATION")
         self.font_sans=("Calibri",15)
         self.frame()
@@ -32,12 +32,12 @@ class Map:
             self.change_frame_page2()
             address_find=entry_address.get()
             
-            marker_1 = map_find.set_address("colosseo, rome, italy", marker=True)  #self.local.city
-            marker_2=map_find.set_address("Berlin,Germany", marker=True)        #address_find
+            marker_1 = map_find.set_address(f"{self.place.city}", marker=True)  #self.local.city
+            marker_2=map_find.set_address(f"{addres_find}", marker=True)        #address_find
             print(marker_1.position, marker_2.position)  # get position 
             
-            marker_1.set_text("Colosseo in Rome")   #self.local.city
-            marker_2.set_text("Berlin Germany")   #adress_find
+            marker_1.set_text(f"{self.place.city}")   #self.local.city
+            marker_2.set_text(f"{address_find}")   #adress_find
             path_1 = map_find.set_path([marker_1.position, marker_2.position])
 
            
@@ -54,9 +54,9 @@ class Map:
 
         elif btn=="go":
             value=list_box.curselection()
-            local=list_box.get(value)
-            if local:
-                map_widget.set_address(local)
+            place=list_box.get(value)
+            if place:
+                map_widget.set_address(place)
         
         elif btn=="back":
             self.change_frame_page1()
@@ -140,8 +140,8 @@ class Map:
         global btn_find,btn_save
 
         #creating buttons at frame 1
-        btn_find=CTkButton(master=frame_page1,text="Find Local",width=150,height=30,corner_radius=10,fg_color="#010001",text_color='#F0F1F0',hover_color="#1A1C1D",command=lambda which="find": self.get_button(which))
-        btn_save=CTkButton(master=frame_page1,text="Save Local",width=150,height=30,corner_radius=10,fg_color="#010001",text_color='#F0F1F0',hover_color="#1A1C1D",command= lambda which="save": self.get_button(which))
+        btn_find=CTkButton(master=frame_page1,text="Find Place",width=150,height=30,corner_radius=10,fg_color="#010001",text_color='#F0F1F0',hover_color="#1A1C1D",command=lambda which="find": self.get_button(which))
+        btn_save=CTkButton(master=frame_page1,text="Save Place",width=150,height=30,corner_radius=10,fg_color="#010001",text_color='#F0F1F0',hover_color="#1A1C1D",command= lambda which="save": self.get_button(which))
         btn_delete=CTkButton(master=frame_page1,text="X", width=20, corner_radius=0,text_color="red",fg_color="#1B1A1B",hover_color=None,command=lambda which="delete": self.get_button(which))
         btn_go=CTkButton(master=frame_page1,text="GO",width=20,corner_radius=0,text_color="white",fg_color="#1B1A1B",hover_color=None,command=lambda which="go": self.get_button(which))
        
