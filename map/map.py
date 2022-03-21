@@ -3,7 +3,7 @@ from customtkinter import *
 from tkintermapview import TkinterMapView
 from tkinter import Listbox,END
 from database import DataBase
-#import geocoder
+import geocoder
 
 
 class Map:
@@ -11,7 +11,7 @@ class Map:
     def __init__(self):
         self.db=DataBase()
         
-        #self.local = geocoder.ip('me')
+        self.local = geocoder.ip('me')
 
         self.window=CTk()
         self.window.geometry("880x520")
@@ -28,22 +28,25 @@ class Map:
 
 
     def get_button(self,btn):
+        global path,address_find,marker_2,marker_1
         if btn=="find":
-            self.change_frame_page2()
             address_find=entry_address.get()
-            
-            marker_1 = map_find.set_address("colosseo, rome, italy", marker=True)  #self.local.city
-            marker_2=map_find.set_address("Berlin,Germany", marker=True)        #address_find
-            print(marker_1.position, marker_2.position)  # get position 
-            
-            marker_1.set_text("Colosseo in Rome")   #self.local.city
-            marker_2.set_text("Berlin Germany")   #adress_find
-            path_1 = map_find.set_path([marker_1.position, marker_2.position])
-
+            if address_find:
+               
            
-            map_find.pack(fill='both',expand=True)
-            self.buttons_frame2()
-            btn_back.place(x=810,y=20)
+                marker_1 = map_find.set_address(self.local.city, marker=True)  #self.local.city
+                marker_2=map_find.set_address(address_find, marker=True)        #address_find
+                #print(marker_1.position, marker_2.position)  # get position 
+            
+                marker_1.set_text(self.local.city)   #self.local.city
+                marker_2.set_text(address_find)   #adress_find
+                path = map_find.set_path([marker_1.position, marker_2.position])
+         
+                map_find.pack(fill='both',expand=True)
+                self.buttons_frame2()
+                btn_back.place(x=810,y=20)
+                self.change_frame_page2()
+                
 
         elif btn=="delete":
             value=list_box.curselection()
@@ -59,6 +62,19 @@ class Map:
                 map_widget.set_address(local)
         
         elif btn=="back":
+            #marker_2.delete()
+            path.remove_position(marker_1.position,marker_2.position)
+            #marker_2.set_position(address_find)
+            
+           
+           
+            #lista.remove((-6.8897849, -38.5570389))
+            #print("lista",lista)
+
+            print(path.position_list)
+            print(marker_1.position)
+            print(marker_2.position)
+
             self.change_frame_page1()
             
             
@@ -75,7 +91,7 @@ class Map:
                 for address in lista:
                     list_box.insert(END,address)
         
-                list_box.place(x=30,y=40)        
+                #list_box.place(x=30,y=40)        
                
             else:
                 print(address_save)
@@ -95,7 +111,7 @@ class Map:
     def list_box(self):
         global list_box
         list_box=Listbox(label_saved,relief=None,bg="#1B1A1B",selectbackground="#0F0F0F",bd=0,font=self.font_sans,highlightthickness = 0,height=430,fg="#F0F0F1")
-      
+        list_box.place(x=30,y=40)   
 
     #CHANGES BETWEEN PAGES (FRAMES)
     def change_frame_page2(self):
@@ -110,11 +126,13 @@ class Map:
         global map_widget,map_find
         map_widget = TkinterMapView(label_map, width=500, height=300,corner_radius=10)
         map_widget.set_tile_server("https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga")
+        map_widget.set_address(self.local.city)
         map_widget.place(relx=0.5, rely=0.5, anchor="center")
 
         map_find=TkinterMapView(frame_page2, width=900,height=550)
         map_find.set_tile_server("https://mt0.google.com/vt/lyrs=m&hl=en&x={x}&y={y}&z={z}&s=Ga")
 
+      
     def label(self):
         global label_map,label_saved
         ##CECECF
@@ -140,8 +158,8 @@ class Map:
         global btn_find,btn_save
 
         #creating buttons at frame 1
-        btn_find=CTkButton(master=frame_page1,text="Find Local",width=150,height=30,corner_radius=10,fg_color="#010001",text_color='#F0F1F0',hover_color="#1A1C1D",command=lambda which="find": self.get_button(which))
-        btn_save=CTkButton(master=frame_page1,text="Save Local",width=150,height=30,corner_radius=10,fg_color="#010001",text_color='#F0F1F0',hover_color="#1A1C1D",command= lambda which="save": self.get_button(which))
+        btn_find=CTkButton(master=frame_page1,text="Find Place",width=150,height=30,corner_radius=10,fg_color="#010001",text_color='#F0F1F0',hover_color="#1A1C1D",command=lambda which="find": self.get_button(which))
+        btn_save=CTkButton(master=frame_page1,text="Save Place",width=150,height=30,corner_radius=10,fg_color="#010001",text_color='#F0F1F0',hover_color="#1A1C1D",command= lambda which="save": self.get_button(which))
         btn_delete=CTkButton(master=frame_page1,text="X", width=20, corner_radius=0,text_color="red",fg_color="#1B1A1B",hover_color=None,command=lambda which="delete": self.get_button(which))
         btn_go=CTkButton(master=frame_page1,text="GO",width=20,corner_radius=0,text_color="white",fg_color="#1B1A1B",hover_color=None,command=lambda which="go": self.get_button(which))
        
