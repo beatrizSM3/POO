@@ -12,7 +12,7 @@ class DataBase():
     def adicionar(self,address_save):
         self.connect()
         cursor.execute(f"SELECT * FROM data")
-        if len(cursor.fetchall())>16:
+        if len(cursor.fetchall())>=15:
                 print("lista de endereços chegou ao limite")
         else:
             cursor.execute(f"INSERT into data values('{address_save}')")
@@ -29,10 +29,14 @@ class DataBase():
         self.dataBase.close()
         return values
 
-    #função delete
-    #...
     def delete(self, address_save):
         self.connect()
-        cursor.execute(f"DELETE FROM data WHERE Place = ('{address_save}')")
+        cursor.execute(f"DELETE FROM data WHERE Place = '{address_save}'")
         self.dataBase.commit()                            
         self.dataBase.close()
+
+    """def delete_all(self):
+        self.connect()
+        cursor.execute(f"DROP table data") 
+        self.dataBase.commit()
+        self.dataBase.close()"""

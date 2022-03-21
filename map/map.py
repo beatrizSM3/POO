@@ -9,10 +9,8 @@ import geocoder
 class Map:
     set_appearance_mode("Dark")
     def __init__(self):
-        self.db=DataBase()
-        
+        self.db=DataBase()  
         self.local = geocoder.ip('me')
-
         self.window=CTk()
         self.window.geometry("880x520+250+80")
         self.window.title("GEOLOCALIZATION")
@@ -23,7 +21,6 @@ class Map:
         self.map_background()
         self.entry()
         self.buttons_frame1()
-        #self.scrollbar()
         self.window.mainloop()
 
 
@@ -51,8 +48,7 @@ class Map:
             value=list_box.curselection()
             address=list_box.get(value)
             self.db.delete(address)
-            list_box.delete(value)
-          
+            list_box.delete(value)   
 
         elif btn=="go":
             value=list_box.curselection()
@@ -65,8 +61,6 @@ class Map:
        
             map_find.destroy()
            
-            
-            
         elif btn=="save":
                
             self.list_box()
@@ -81,27 +75,24 @@ class Map:
                     list_box.insert(END,address)     
                
             else:
-                print(address_save)
+                #print(address_save)
                 list_box.insert(END,address_save)
+          
         
 
     def frame(self):
         global frame_page1,frame_page2
         frame_page1=CTkFrame(master=self.window,width=900,height=520,corner_radius=0)    
         frame_page2=CTkFrame(master=self.window,width=900,height=520)
-
-    def scrollbar(self):
-        global scrollbar
-        scrollbar=Scrollbar(frame_page1,orient="vertical",bg="#0F0F0F",troughcolor="blue")
-        
+      
 
     def list_box(self):
         global list_box
-        list_box=Listbox(label_saved,relief=None,bg="#1B1A1B",selectbackground="#0F0F0F",bd=0,font=self.font_sans,highlightthickness = 0,height=430,fg="#F0F0F1")
-        print(list_box)
+        list_box=Listbox(label_saved,relief=None,bg="#1B1A1B",selectbackground="#0F0F0F",bd=0,font=self.font_sans,highlightthickness = 0,height=430,fg="#F0F0F1",width=15)
 
-        list_box.place(x=30,y=40)   
-
+        list_box.place(x=55,y=60)
+               
+               
     #CHANGES BETWEEN PAGES (FRAMES)
     def change_frame_page2(self):
         frame_page2.pack(fill='both',expand=True)
@@ -128,15 +119,18 @@ class Map:
       
     def label(self):
         global label_map,label_saved
-        ##CECECF
 
         label_map=CTkLabel(master=frame_page1,text=None,fg_color="#1B1A1B", width=550, height=350,corner_radius=20)
             
         label_map.place(x=300,y=40)
 
-        label_saved=CTkLabel(master=frame_page1,text="Favorite Places",fg_color="#1B1A1B", width=250, height=450,corner_radius=20,text_font=self.font_sans,anchor="w")
+        label_saved=CTkLabel(master=frame_page1,text=None,fg_color="#1B1A1B", width=250, height=450,corner_radius=20,text_font=self.font_sans,anchor="w")
+
+        label_fav=CTkLabel(master=frame_page1,text="Favorite Places",width=200,height=20,anchor="center",text_font=self.font_sans,fg_color="#1B1A1B",corner_radius=0)
+
           
         label_saved.place(x=30,y=40)
+        label_fav.place(x=50,y=50)
 
 
     def entry(self):
