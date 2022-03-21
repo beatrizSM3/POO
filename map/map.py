@@ -16,10 +16,6 @@ class Map:
         self.db=DataBase()
         
         #self.local = geocoder.ip('me')
-        
-        self.lista=["Malta","Brasil","New York","China","Japan","Cajazeiras","Bangladesh","a","b","c","Malta"]
-        self.lista2=[]
-
 
         self.window=CTk()
         self.window.geometry("880x520")
@@ -27,12 +23,11 @@ class Map:
         self.font_sans=("Calibri",15)
         self.frame()
         self.change_frame_page1()
-        #self.map_background()
         self.label()
         self.map_background()
         self.entry()
         self.buttons_frame1()
-        self.scrollbar()
+        #self.scrollbar()
         self.window.mainloop()
 
 
@@ -60,9 +55,9 @@ class Map:
         elif btn=="delete":
             value=list_box.curselection()
             address=list_box.get(value)
-            #self.db.delete(address)
+            self.db.delete(address)
             list_box.delete(value)
-            print(address)
+          
 
         elif btn=="go":
             value=list_box.curselection()
@@ -72,8 +67,7 @@ class Map:
             
             
         elif btn=="save":
-            
-           
+               
             self.list_box()
             
             address_save=entry_save.get() 
@@ -90,10 +84,7 @@ class Map:
             else:
                 print(address_save)
                 list_box.insert(END,address_save)
-           
-            
-            print("executou")
-
+        
 
     def frame(self):
         global frame_page1,frame_page2
@@ -109,7 +100,6 @@ class Map:
         global list_box
         list_box=Listbox(label_saved,relief=None,bg="#1B1A1B",selectbackground="#0F0F0F",bd=0,font=self.font_sans,highlightthickness = 0,height=430,fg="#F0F0F1")
       
-
 
     #CHANGES BETWEEN PAGES (FRAMES)
     def change_frame_page2(self):
@@ -141,9 +131,6 @@ class Map:
           
         label_saved.place(x=30,y=40)
 
-      
-     
-
 
     def entry(self):
         global entry_save,entry_address
@@ -152,9 +139,6 @@ class Map:
 
         entry_address.place(x=400, y=420)
         entry_save.place(x=600, y=420)
-
-
-
 
     def buttons_frame1(self):
         global btn_find,btn_save
@@ -165,7 +149,6 @@ class Map:
         btn_delete=CTkButton(master=frame_page1,text="X", width=20, corner_radius=0,text_color="red",fg_color="#1B1A1B",hover_color=None,command=lambda which="delete": self.get_button(which))
         btn_go=CTkButton(master=frame_page1,text="GO",width=20,corner_radius=0,text_color="white",fg_color="#1B1A1B",hover_color=None,command=lambda which="go": self.get_button(which))
        
-
         #placing buttons with place()
         btn_delete.place(x=240,y=50)
         btn_go.place(x=240,y=450)
@@ -177,7 +160,6 @@ class Map:
         global btn_back
         btn_back=CTkButton(master=frame_page2,text="Back",width=50,height=30,corner_radius=10,fg_color="#010001",text_color='#F0F1F0',hover_color="#1A1C1D", command=lambda which="back":self.get_button(which))
 
-   
 
 map=Map()
 

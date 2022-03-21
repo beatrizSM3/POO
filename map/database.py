@@ -34,3 +34,9 @@ class DataBase():
 
     #função delete
     #...
+    def delete(self, address_save):
+        self.connect()
+        delete=f"DELETE FROM data WHERE Local = ('{address_save}')"
+        cursor.execute(delete)
+        self.dataBase.commit()                            
+        self.dataBase.close()
