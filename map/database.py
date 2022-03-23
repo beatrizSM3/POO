@@ -1,7 +1,8 @@
 import sqlite3 as db
 
-
 class DataBase():
+    def __init__(self):
+        pass
     def connect(self):
         global cursor
 
@@ -35,8 +36,3 @@ class DataBase():
         self.dataBase.commit()                            
         self.dataBase.close()
 
-    """def delete_all(self):
-        self.connect()
-        cursor.execute(f"DROP table data") 
-        self.dataBase.commit()
-        self.dataBase.close()"""
