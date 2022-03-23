@@ -1,8 +1,6 @@
 import sqlite3 as db
 
 class DataBase():
-    def __init__(self):
-        pass
     def connect(self):
         global cursor
 
